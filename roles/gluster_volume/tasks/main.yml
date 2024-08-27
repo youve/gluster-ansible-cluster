@@ -8,8 +8,54 @@
   run_once: true
   with_items: "{{ gluster_cluster_hosts }}"
 
+# In Gluster 11, you can no longer specify all of the possible options with 0 for
+# the ones you do not want to set. Instead, you have to omit those entirely, or
+# it will error. So we create the variables as empty and only populate them if
+# they are needed.
+- name: Create empty replica_count variable
+  set_fact:
+    replica_count: ""
+  when: gluster_cluster_replica_count is not defined or gluster_cluster_replica_count == 0
+- name: Create empty disperse_count variable
+  set_fact:
+    disperse_count: ""
+  when: gluster_cluster_disperse_count is not defined or gluster_cluster_disperse_count == 0
+- name: Create empty redundancy_count variable
+  set_fact:
+    redundancy_count: ""
+  when: gluster_cluster_redundancy_count is not defined or gluster_cluster_redundancy_count == 0
+- name: Create empty arbiter_count variable
+  set_fact:
+    arbiter_count: ""
+  when: gluster_cluster_arbiter_count is not defined or gluster_cluster_arbiter_count == 0
+
+
+- name: Create populated replica_count variable
+  set_fact:
+    replica_count: "replica {{ gluster_cluster_replica_count }}"
+  when: gluster_cluster_replica_count is defined and gluster_cluster_replica_count != 0
+- name: Create populated disperse_count variable
+  set_fact:
+    disperse_count: "disperse {{ gluster_cluster_disperse_count }}"
+  when: gluster_cluster_disperse_count is defined and gluster_cluster_disperse_count != 0
+- name: Create populated redundancy_count variable
+  set_fact:
+    redundancy_count: "redundancy {{ gluster_cluster_redundancy_count }}"
+  when: gluster_cluster_redundancy_count is defined and gluster_cluster_redundancy_count != 0
+- name: Create populated arbiter_count variable
+  set_fact:
+    arbiter_count: "arbiter {{ gluster_cluster_arbiter_count }}"
+  when: gluster_cluster_arbiter_count is defined and gluster_cluster_arbiter_count != 0
+
+# In Gluster 11, it will error if we try to recreate an existing volume, so we
+# record what volumes exist.
+
+- name: List volumes
+  command: "gluster volume list"
+  register: gluster_volume_list
+
 - name: Create a volume
-  command: "gluster volume create {{ gluster_cluster_volume }} replica {{ gluster_cluster_replica_count | default(0) }} disperse {{ gluster_cluster_disperse_count | default(0) }} redundancy {{ gluster_cluster_redundancy_count | default(0) }} arbiter {{ gluster_cluster_arbiter_count | default(0) }} transport {{ gluster_cluster_transport | default('tcp') }} {{ gluster_cluster_bricks }} force"
+  command: "gluster volume create {{ gluster_cluster_volume }} {{ replica_count }} {{ disperse_count }} {{ redundancy_count }} {{ arbiter_count }} transport {{ gluster_cluster_transport | default('tcp') }} {{ gluster_cluster_bricks }} force"
   #gluster_volume:
   #      state: "{{ gluster_cluster_state | default('present') }}"
   #      volume: "{{ gluster_cluster_volume }}"
@@ -23,3 +69,4 @@
   #      force: "{{ gluster_cluster_force | default('no') }}"
   #      options: "{{ gluster_cluster_options | default({}) }}"
   run_once: true
+  when: gluster_cluster_volume not in gluster_volume_list.stdout_lines

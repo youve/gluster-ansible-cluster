@@ -1,19 +1,19 @@
 galaxy_info:
   author: Devyani Kota
-  description: https://github.com/devyanikota
+  description: https://github.com/devyanikota updated for Gluster11 by https://github.com/youve
   company: Red Hat Inc.
 
   license: GPLv3
-  min_ansible_version: 2.5
+  min_ansible_version: "2.5"
   github_branch: master
 
   platforms:
-  - name: Fedora
-    versions:
-      - all
-  - name: RHEL
-    versions:
-      - 7.3 or above
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags:
     - cluster_volume
     - cluster_bricks
