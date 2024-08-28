@@ -3,6 +3,17 @@ Forked version
 This fork updates the playbook to work with GlusterFS version 11, whose cli syntax
 has changed. Volume creation has been tested, including for idempotence, on Ubuntu.
 
+The brick syntax has also changed. Before, you specified just the brick you were
+adding on the host, like `gluster_cluster_bricks: "/mnt/gluster/brick_name"`
+But now you must specify all the full path of all the bricks like this:
+
+`gluster_cluster_bricks: "10.10.10.10:/mnt/gluster/brick_name 10.10.10.11:/mnt/gluster/brick_name"`
+
+During the volume creation process, gluster will create the relevant directories
+on all the hosts. This means that if gluster is already installed when you add
+a new volume, it'll set it up for you on all the relevant hosts, regardless of which
+one you run the playbook on.
+
 gluster.cluster
 ===============
 
