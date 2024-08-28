@@ -1,3 +1,8 @@
+Forked version
+==============
+This fork updates the playbook to work with GlusterFS version 11, whose cli syntax
+has changed. Volume creation has been tested, including for idempotence, on Ubuntu.
+
 gluster.cluster
 ===============
 
@@ -11,7 +16,7 @@ The sub-roles are:
 Requirements
 ------------
 - Ansible version 2.5 or above.
-- GlusterFS version 3.2 or above.
+- GlusterFS version 11 or above.
 
 
 Role Variables
