@@ -11,9 +11,9 @@
     gluster_cluster_volume: testvol
     gluster_cluster_disperse_count: 4
     gluster_cluster_redundancy_count: 2
-    gluster_cluster_force: 'yes'
-    gluster_cluster_transport: 'tcp'
-    gluster_cluster_bricks: '/mnt/brick1/b1,/mnt/brick2/b2,/mnt/brick1/b3,/mnt/brick2/b1,/mnt/brick2/b2,/mnt/brick2/b3'
+    gluster_cluster_force: "yes"
+    gluster_cluster_transport: "tcp"
+    gluster_cluster_bricks: "10.70.41.212:/mnt/brick1/b1 10.70.42.156:/mnt/brick2/b2 10.70.41.212:/mnt/brick1/b3 10.70.42.156:/mnt/brick2/b1 10.70.42.156:/mnt/brick2/b2 10.70.42.156:/mnt/brick2/b3"
 
   roles:
     - gluster.volume

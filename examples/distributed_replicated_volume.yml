@@ -10,9 +10,9 @@
       - 10.70.42.156
     gluster_cluster_volume: testvol
     gluster_cluster_replica_count: 3
-    gluster_cluster_force: 'yes'
-    gluster_cluster_transport: 'tcp'
-    gluster_cluster_bricks: '/mnt/brick1/b1,/mnt/brick2/b2,/mnt/brick2/b1'
+    gluster_cluster_force: "yes"
+    gluster_cluster_transport: "tcp"
+    gluster_cluster_bricks: "10.70.41.212:/mnt/brick1/b1 10.70.42.156:/mnt/brick2/b2 10.70.42.156:/mnt/brick2/b1"
 
   roles:
     - gluster.volume
